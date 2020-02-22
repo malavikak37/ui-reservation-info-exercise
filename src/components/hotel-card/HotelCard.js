@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import getHotelData from "../../service/API";
+import "./HotelCard.css";
 
 class HotelCard extends Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -19,12 +20,12 @@ class HotelCard extends Component {
 
 
     getTotalPrice = (hotel) => {
-        return hotel.price.perDay.reduce((acc,cur) =>  acc + cur.RoomPrice + cur.RoomTax + cur.RoomFees, 0);
+        return hotel.price.perDay.reduce((acc, cur) => acc + cur.RoomPrice + cur.RoomTax + cur.RoomFees, 0);
     }
 
     getPrimaryGuestName = (hotel) => {
-        const guest =  hotel.guestInfo.filter(x=>x.type === "Primary")[0];
-        if(guest) {
+        const guest = hotel.guestInfo.filter(x => x.type === "Primary")[0];
+        if (guest) {
             return guest.name;
         }
         return "";
@@ -34,26 +35,29 @@ class HotelCard extends Component {
     render() {
         const { list } = this.state;
         return (
-            <div>
+            <div className="hotel-card-container">
                 {list.map((hotel, index) => (
-                    <div key={index}>
-                        <div>
+                    <div key={index} className="hotel-card">
+                        <div className="header">
                             <h3>{hotel.roomDetails.Name} ({hotel.roomDetails.Code})</h3>
+                            <div>
+                                <small>Price</small>
+                                <p className="price">{this.getTotalPrice(hotel)}</p>
+                            </div>
                         </div>
                         <div>
-                <p>{this.getPrimaryGuestName(hotel)}</p>
+                            <small>Guest Name</small>
+                            <p className="bold">{this.getPrimaryGuestName(hotel)}</p>
                         </div>
-                        <div>
-                            <small>Start Date</small>
-                            <p>{hotel.startDate}</p>
-                        </div>
-                        <div>
-                            <small>End Date</small>
-                            <p>{hotel.endDate}</p>
-                        </div>
-                        <div>
-                            <small>Price</small>
-                            <p>{this.getTotalPrice(hotel)}</p>
+                        <div className="dates">
+                            <div>
+                                <small>Start Date</small>
+                                <p className="bold">{hotel.startDate}</p>
+                            </div>
+                            <div>
+                                <small>End Date</small>
+                                <p className="bold">{hotel.endDate}</p>
+                            </div>
                         </div>
                         <div>
                             <small>Amenities</small>

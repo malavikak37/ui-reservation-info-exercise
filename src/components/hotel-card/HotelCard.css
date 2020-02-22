@@ -1,0 +1,31 @@
+.hotel-card-container {
+    display: flex;
+}
+
+.hotel-card {
+    background: #fafafa;
+    padding: 16px;
+    margin: 16px;
+    width: 50%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+.bold {
+    font-weight: 600;
+}
+.hotel-card h3 {
+    margin: 0;
+}
+
+.dates {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+.price {
+    color: green;
+    font-weight: bold;
+}

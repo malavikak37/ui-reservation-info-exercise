@@ -14,3 +14,15 @@
   color: #fff;
   margin: 0;
 }
+
+.app-header h3 {
+  margin: 0 0 8px;
+}
+
+.hotel-card p {
+  margin: 4px 0;
+}
+
+.hotel-card div {
+  margin-bottom: 8px;
+}
