@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import getHotelData from "../../service/API";
 import "./HotelCard.css";
+import Price from "../price/Price";
 
 class HotelCard extends Component {
     allHotels = [];
@@ -13,6 +14,7 @@ class HotelCard extends Component {
 
     async componentDidMount() {
         const list = await getHotelData();
+        list.forEach(ele => ele.showDetailedPrice = false);
         this.allHotels = [...list];
         this.setState({
             list
@@ -32,9 +34,19 @@ class HotelCard extends Component {
         return "";
     }
 
-    handleDateFilterChange =(event)=> {
-        const {name,value} = event.target;
-        const list =  this.allHotels.filter(hotel => new Date(hotel.startDate) > new Date(value));
+    handleDateFilterChange = (event) => {
+        const { value } = event.target;
+        const list = this.allHotels.filter(hotel => new Date(hotel.startDate) > new Date(value));
+        this.setState({
+            list
+        });
+    }
+
+    showPriceBreakdown = (index) => {
+        const list = [...this.state.list];
+        let hotel = list[index];
+        hotel.showDetailedPrice = true;
+        list[index] = hotel;
         this.setState({
             list
         });
@@ -58,10 +70,6 @@ class HotelCard extends Component {
                         <div key={index} className="hotel-card">
                             <div className="header">
                                 <h3>{hotel.roomDetails.Name} ({hotel.roomDetails.Code})</h3>
-                                <div>
-                                    <small>Price</small>
-                                    <p className="price">{this.getTotalPrice(hotel)}</p>
-                                </div>
                             </div>
                             <div>
                                 <small>Guest Name</small>
@@ -84,6 +92,15 @@ class HotelCard extends Component {
                                         <li key={index}>{amenity.name} - <small>{amenity.description}</small></li>
                                     ))}
                                 </ul>
+                            </div>
+                            <div>
+                                <div onClick={() => this.showPriceBreakdown(index)}>
+                                    <small>Price (click on price to see detailed info)</small>
+                                    <p className="price">{this.getTotalPrice(hotel)}</p>
+                                </div>
+                                {hotel.showDetailedPrice && (
+                                    <Price price={hotel.price.perDay} />
+                                )}
                             </div>
                         </div>
                     ))}
